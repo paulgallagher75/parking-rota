@@ -1,0 +1,4 @@
+Dave,Mon,Tue,Fri
+Mark,Mon,Tue,Thur,Fri
+John,Mon,Tue,Wed,Fri
+Sarah,Mon,Tue,Wed,Fri
