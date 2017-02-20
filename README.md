@@ -16,7 +16,7 @@ The output is displayed on the console and written to a google calandar of choic
 The rota is decided on a top down then bottom up. so running the allocator like this, with the list of name above with only 3 spaces to pick from,
 
 ```sh
-./allocate.py -c choices.txt -d 2017-02-27 -s 3
+./allocate.py -c example_choices.txt -d 2017-02-27 -s 3
 ```
 
 results in this list below as the outcome, so MON has 4 people wanting it as first choice, as Dave is at the top of the list he gets Monday for Space 1 first, Mark is next on the list however as Space 1 has already gone for the Monday he gets his sencond choice which is Tuesday for Space 1, next is John who wanted Monday then Tuesday which have both already gone do he gets Thursday for Space 1, then Sarah gets Friday as all other choices for Space 1 are gone.
@@ -36,11 +36,13 @@ FRI: Sarah, Mark, John
 The system is only fair if each week it is generated the list the rotated from bottom to top so Sarah would move to the top of the list next time we allocated.
 
 ### Options
-|--config-file|CSV file with ordered list of names and days selected|
-|--add-calendar-entries|Automatically add the entries to the specified calendar|
-|--google-calendar|Name of the Google Calendar to update|
-|--date-of-monday|Date (YYYY-MM-DD) that the Monday starts on for this week|
-|--number-of-spaces|Number os car park spaces there are|
+```
+--config-file          CSV file with ordered list of names and days selected
+--add-calendar-entries Automatically add the entries to the specified calendar
+--google-calendar      Name of the Google Calendar to update
+--date-of-monday       Date (YYYY-MM-DD) that the Monday starts on for this week
+--number-of-spaces     Number os car park spaces there are
+```
 
 ## Email notification system
 
