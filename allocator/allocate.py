@@ -33,7 +33,7 @@ def get_command_line_option_parser():
                       help='CSV file with ordered list of names and days selected.')
     parser.add_option('--add-calendar-entries', dest='update_cal', default=False, action='store_true',
                       help='Automatically add the entries to the specified calendar.')
-    parser.add_option('-g', '--google-calendar', dest='calendar', default='RedHat Car Parking',
+    parser.add_option('-g', '--google-calendar', dest='calendar',
                       help='Name of the Google Calendar to update.')
     parser.add_option('-d', '--date-of-monday', dest='sdate', default=time.strftime("%Y-%m-%d"),
                       help='Date (YYYY-MM-DD) that the Monday starts on for this week.')
@@ -111,17 +111,16 @@ def update_google_calendar(cal_id, date):
             pno = parking_numbers[space_iter]
         space_iter = space_iter + 1
         for name in parking[key]:
-            cal_entry_tmpl["summary"] = name + " - " + pno
+            cal_entry_tmpl["summary"] = pno + " " + name
             cal_entry_tmpl["start"]["date"] = dates[count]
             cal_entry_tmpl["end"]["date"] = dates[count + 1]
             count = count + 1
-            print cal_entry_tmpl
 
-            #try:
-            #    service.events().insert(calendarId=cal_id,
-            #                            body=cal_entry_tmpl).execute()
-            #except Exception, err:
-            #    print err
+            try:
+                service.events().insert(calendarId=cal_id,
+                                        body=cal_entry_tmpl).execute()
+            except Exception, err:
+                print err
 
 def get_day_selection(csv_file):
     #Get parking selections array
@@ -161,11 +160,16 @@ def main(argv):
         parser.print_help()
         return 1
 
-    cal_id = get_cal_id_by_name(opts.calendar)
-    if not cal_id:
-        print "Calendar " + os.path.abspath(opts.config_file) + " not found."
-        parser.print_help()
-        return 1
+    if opts.update_cal is True:
+        if not opts.calendar:
+            print 'No Google calendar specified.'
+            parser.print_help()
+            return 1
+        cal_id = get_cal_id_by_name(opts.calendar)
+        if not cal_id:
+            print "Calendar " + opts.calendar + " not found."
+            parser.print_help()
+            return 1
 
     parking_selection = get_day_selection(opts.config_file)
     if not parking_selection:
