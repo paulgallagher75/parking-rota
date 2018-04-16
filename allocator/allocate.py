@@ -126,6 +126,8 @@ def get_day_selection(csv_file):
     #Get parking selections array
     reader = csv.reader(open(csv_file))
     for row in reader:
+        if not row:
+            continue
         row[0] = row[0].replace('_', ' ')
         if row[0].startswith('#'):
             continue
