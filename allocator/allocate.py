@@ -14,7 +14,7 @@ service = None
 parking_selection = []
 spaces = []
 parking = {}
-parking_numbers = ["C6","C7","C8","C17","N/A"]
+parking_numbers = ["C19","C20","C21","C22","N/A"]
 
 cal_entry_tmpl = {
     "summary": "",
