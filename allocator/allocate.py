@@ -119,8 +119,8 @@ def update_google_calendar(cal_id, date):
             try:
                 service.events().insert(calendarId=cal_id,
                                         body=cal_entry_tmpl).execute()
-            except Exception, err:
-                print err
+            except Exception as err:
+                print (err)
 
 def get_day_selection(csv_file):
     #Get parking selections array
@@ -132,7 +132,7 @@ def get_day_selection(csv_file):
         if row[0].startswith('#'):
             continue
         if row[0] in parking_selection:
-            print row[0] + " in parking selection file multiple times"
+            print (row[0] + " in parking selection file multiple times")
             return None
         parking_selection.append(row)
     return parking_selection
@@ -146,30 +146,30 @@ def print_parking(num_spaces):
             else:
                 comma = ', '
             spaces_string[n] = spaces_string[n] + comma + parking[spaces[i]][n]
-        print spaces_string[n]
+        print (spaces_string[n])
 
 def main(argv):
     parser = get_command_line_option_parser()
     (opts, extra) = parser.parse_args()
 
     if not opts.config_file:
-        print 'Config file not specified.'
+        print ('Config file not specified.')
         parser.print_help()
         return 1
 
     if not os.path.isfile(opts.config_file):
-        print "Config file " + os.path.abspath(opts.config_file) + " not found."
+        print ("Config file " + os.path.abspath(opts.config_file) + " not found.")
         parser.print_help()
         return 1
 
     if opts.update_cal is True:
         if not opts.calendar:
-            print 'No Google calendar specified.'
+            print ('No Google calendar specified.')
             parser.print_help()
             return 1
         cal_id = get_cal_id_by_name(opts.calendar)
         if not cal_id:
-            print "Calendar " + opts.calendar + " not found."
+            print ("Calendar " + opts.calendar + " not found.")
             parser.print_help()
             return 1
 
@@ -193,7 +193,7 @@ def main(argv):
     if opts.update_cal:
         date = datetime.datetime.strptime(opts.sdate, "%Y-%m-%d")
         if date.isoweekday() != 1:
-            print "Start of week date " + opts.sdate + " not Monday."
+            print ("Start of week date " + opts.sdate + " not Monday.")
             parser.print_help()
             return 1
         update_google_calendar(cal_id, opts.sdate)
