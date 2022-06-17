@@ -14,7 +14,7 @@ service = None
 parking_selection = []
 spaces = []
 parking = {}
-parking_numbers = ["C19","C20","C21","C22","N/A"]
+parking_numbers = ["01","02","03","04","05","06","07","08","09","10","N/A"]
 
 cal_entry_tmpl = {
     "summary": "",
@@ -44,7 +44,7 @@ def get_command_line_option_parser():
 def init_spaces(num_spaces):
     for i in range(int(num_spaces)):
         spaces.append("Space " + str(i+1))
-        parking[spaces[i]] = ['Free','Free','Free','Free','Free']
+        parking[spaces[i]] = ['Free','Free','Free','Free','Free','Free','Free']
 
 def day_to_number(day_string):
     return {
@@ -52,7 +52,9 @@ def day_to_number(day_string):
         'tue': 1,
         'wed': 2,
         'thur': 3,
-        'fri': 4}.get(day_string.lower(), 99)
+        'fri': 4,
+        'sat': 5,
+        'sun': 6}.get(day_string.lower(), 99)
 
 def pick_weeks_spaces(space, from_bottom=False):
     tmp = parking_selection
@@ -95,10 +97,10 @@ def get_cal_id_by_name(cal_name):
     return None
 
 def update_google_calendar(cal_id, date):
-    dates = ["","","","","",""]
+    dates = ["","","","","","","",""]
     last_date = date
-    #Need the Sat as the very last so the end date for the friday is the Sat
-    for i in range(6):
+    #Need the Mon as the very last so the end date for the Sun is the Mon
+    for i in range(8):
         dates[i] = last_date
         last_date = (datetime.datetime.strptime(last_date, "%Y-%m-%d") +
                      datetime.timedelta(days=1)).strftime("%Y-%m-%d")
@@ -138,7 +140,7 @@ def get_day_selection(csv_file):
     return parking_selection
 
 def print_parking(num_spaces):
-    spaces_string = ["MON: ","TUE: ","WED: ","THU: ","FRI: " ]
+    spaces_string = ["MON: ","TUE: ","WED: ","THU: ","FRI: ","SAT: ","SUN: " ]
     for n in range(len(spaces_string)):
         for i in range(int(num_spaces)):
             if i == 0:
@@ -184,7 +186,7 @@ def main(argv):
     #Try a number of times to fill the spaces up with more than one pass
     reverse = False
     for i in range(int(opts.num_spaces)):
-        for n in range(1,5):
+        for n in range(1,7):
             pick_weeks_spaces(spaces[i], reverse)
         reverse = not reverse
 
